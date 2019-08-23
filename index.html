@@ -1,34 +1,36 @@
 <!doctype html>
 
 <html lang="en">
-<head>
-  <meta charset="utf-8">
 
-  <title>Star Wars Characters and Comics</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="description" content="Find out what comics Star Wars characters have been in">
-  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="css/styles.css">
+<head>
+    <meta charset="utf-8">
+
+    <title>Star Wars Characters and Comics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Find out what comics Star Wars characters have been in">
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/styles.css">
 
 </head>
 
 <body>
-        <header>
-                <h1>Pick a character from any of the Star Wars movies to see what comics they've been in!</h1>
-              </header>
-              <main class="main">
-                <form>
-                  <label>Which character<br>
-                     <select class="char_select" id="char">
-                     </select>
-                    <input type="submit" value="Submit" onclick="submit_form()"/>
-                 </label>
-                </form>
-                <section class="hidden result old">
-                    <article class="deck">
-                    </article>
-                </section>
-  <script src="js/script.js"></script>
+    <header>
+        <h1>Pick a character from any of the Star Wars movies to see what comics they've been in!</h1>
+    </header>
+    <main class="main">
+        <form>
+            <label>Which character<br>
+                <select class="char_select" id="char">
+                </select>
+                <input type="submit" value="Submit" onclick="submit_form()" />
+            </label>
+        </form>
+        <section class="hidden result old">
+            <article class="deck">
+            </article>
+        </section>
+        <script src="js/script.js"></script>
 </body>
+
 </html>
