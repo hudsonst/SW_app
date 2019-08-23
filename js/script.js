@@ -103,14 +103,16 @@ function appendResults(results) {
 };
 
 function displayCharacters(characters) {
-    characters.results.forEach(arr => {
+  characters.forEach(obj => {
+      obj.results.forEach(arr => {
         const name = arr.name;
         if (name && name.length) {
             const charSelect = `<option value="${name}">${name}</option>`;
             const select = document.querySelector('.char_select');
             select.innerHTML += charSelect;
         }
-    });
+    })
+  });
 };
 
 function submit_form() {
@@ -120,21 +122,22 @@ function submit_form() {
 };
 
 function list_all_characters() {
-    let i = "";
+let i = "";
 
-    for (i = 1; i < 10; i++) {
-        const url = `https://swapi.co/api/people/?page=${i}`;
-        fetch(url)
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error(response.statusText);
-            })
-            .then(responseJson => displayCharacters(responseJson))
-            .catch(error => alert("Sorry, not working!"));
-    };
+let urls = [];
+for (i = 1; i < 10; i++) {
+     const url = `https://swapi.co/api/people/?page=${i}`;
+     urls.push(url);
+    }
 
+let promises = urls.map(url => fetch(url)
+.then(response => {
+  if (response.ok) {
+      return response.json();
+  }
+  throw new Error(response.statusText);
+}));
+Promise.all(promises).then(results => displayCharacters(results));
 };
 
 list_all_characters();
