@@ -9,7 +9,13 @@ function formatQueryParams(params) {
     return queryItems.join('&');
 }
 
-function getComics(char, maxResults = 10) {
+function getComics(character) {
+    $('.loader').removeClass('hidden');
+    const charArr = character.split("_");
+    const char = charArr[0];
+    const swURL = charArr[1];
+
+    //Get Comic Vine comics
     const params = {
         query: char,
         resources: "character",
@@ -20,8 +26,6 @@ function getComics(char, maxResults = 10) {
     const proxyurl = "https://cors-anywhere.herokuapp.com/"; //to bypass CORS issue
     const url = searchURL + '?' + queryString;
 
-    console.log(url);
-
     fetch(proxyurl + url)
         .then(response => {
             if (response.ok) {
@@ -29,43 +33,101 @@ function getComics(char, maxResults = 10) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseJson => displayResults(responseJson, char))
+        .then(responseJson => getSWAPIperson(swURL, responseJson, char))
         .catch(err => {
             $('#js-error-message').text(`Something went wrong getting comics: ${err.message}`)
-        });;
-}
+        });
+};
 
-function displayResults(responseJson, char) {
+function getSWAPIperson(swURL, cvresults, char){
+    //Get SWAPI details
+    fetch(swURL)
+        .then(response => {
+          if (response.ok) {
+          return response.json();
+      }
+      throw new Error(response.statusText);
+  })
+  .then(swresponseJson => displayResults(cvresults, swresponseJson, char))
+  .catch(err => {
+    $('#js-error-message').text(`Something went wrong getting SWAPI person: ${err.message}`)
+  });
+};
+
+function getSWAPIitems(swResults, propArr) {
+  const urlArr = [];
+  let filmCount = 0;
+  propArr.forEach(prop => {
+    if (Array.isArray(swResults[prop])) {
+      urlArr.push(...swResults[prop])
+    } else {
+    urlArr.push(swResults[prop]);}
+  });
+  urlArr.forEach(url => {
+      fetch(url)
+          .then(response => {
+              if (response.ok) {
+                  return response.json();
+              }
+              throw new Error(response.statusText);
+          })
+          .then(responseJson => {
+              if (url.includes("species")) {
+                  $('.species').append(
+                      `Species: ${responseJson.name}<br>`)
+              };
+
+              if (url.includes("planets")) {
+                  $('.homeworld').append(
+                      `Homeworld: ${responseJson.name}</p>`)
+              };
+
+              if (url.includes("films")) {
+                if (filmCount === 0) {
+                $('.films').append(
+                    `Films:<br>${responseJson.title}`)
+                    filmCount++;
+                } else if (filmCount > 0) {
+                $('.films').append(
+                  `<br>${responseJson.title}`)
+                  filmCount++;
+                };
+            };
+            
+          });
+  });
+};
+
+function displayResults(cvResults, swResults, char) {
     // if there are previous results, remove them
+    $('.swapi').empty();
     $('.old').empty();
     // iterate through the items array
     let match = 0;
-    for (let i = 0; i < responseJson.results.length; i++) {
+    for (let i = 0; i < cvResults.results.length; i++) {
         const matchArr = ["Endor", "Stormtrooper", "Star Wars", "Skywalker", "X-Wing", "Death Star", "Yavin", "Jedi", "Padmé", "Palpatine", "Ewok"];
 
-        // Because ComicVine's API returns too many results with no way to specify, we need to match. If it's just 1 return it's probably correct.
-        if (responseJson.results.length === 0) {
+        // Because ComicVine's API returns too many results with no way to specify, we need to match. 
+        if (cvResults.results.length === 0) {
             $('.result').append(
                 `<li><h3>Sorry, no match for ${char} found.</h3>`);
         };
 
-        if (responseJson.results.length === 1) {
-            appendResults(responseJson.results[i])
+
+        // If it's just 1 return it's probably correct.
+        if (cvResults.results.length === 1) {
+            appendResults(cvResults.results[i],swResults)
             match++;
         }
 
         if (match === 0) {
             matchArr.forEach(term => {
-                if (match === 0 && responseJson.results[i].deck !== null && responseJson.results[i].deck.includes(`${term}`)) {
-                    appendResults(responseJson.results[i]);
-                    console.log(`Deck matched! ${term}`);
+                if (match === 0 && cvResults.results[i].deck !== null && cvResults.results[i].deck.includes(`${term}`)) {
+                    appendResults(cvResults.results[i],swResults);
                     match++;
-                    console.log(`${match}`);
-                } else if (match === 0 && responseJson.results[i].description !== null && responseJson.results[i].description.includes(`${term}`)) {
-                    appendResults(responseJson.results[i]);
-                    console.log(`Description matched! ${term}`);
+                } else if (match === 0 && cvResults.results[i].description !== null && cvResults.results[i].description.includes(`${term}`)) {
+                    appendResults(cvResults.results[i],swResults);
                     match++;
-                    console.log(`${match}`);
                 }
             })
         }
@@ -73,7 +135,7 @@ function displayResults(responseJson, char) {
 
 
     if (match === 0) {
-        responseJson.results.forEach(name => {
+        cvResults.results.forEach(name => {
             if (char === name.name || char === name.real_name) {
                 appendResults(name);
                 match++;
@@ -83,45 +145,59 @@ function displayResults(responseJson, char) {
 
     if (match === 0) {
         $('.result').append(
-            `<li><h3>Sorry, no match for ${char} found.</h3>`);
+            `<h3 class="old">Sorry, no match for ${char} found.</h3>`);
     };
 
-    //display the results section  
+    //add old class to swapi results
+    $('.swapi').addClass('old');
+    //display the results section, remove loader
     $('.hidden').removeClass('hidden');
+    $('.loader').addClass('hidden');
 };
 
-function appendResults(results) {
-    $('.result').append(
-        `
-   <h3>${results.name}</h3>
-   <p class="thumb"><img src="${results.image.thumb_url}"/><p>
-   <p>${results.deck}</p>
 
-   <p>Numbers of comic issues appeared in: ${results.count_of_issue_appearances}</p>
-   <a href="${results.site_detail_url}">${results.site_detail_url}</a>
+function appendResults(cvresults, swResults) {
+
+$('.species').prepend(
+    `<h3>${cvresults.name}</h3>`);
+
+const swapiArr = ["species", "homeworld", "films"];
+getSWAPIitems(swResults, swapiArr);
+$('.species').append(`<img src="${cvresults.image.thumb_url}"/>`);
+$('.deck').append(
+  `
+<p>Numbers of comic issues appeared in: ${cvresults.count_of_issue_appearances}</p>
+<a href="${cvresults.site_detail_url}">${cvresults.site_detail_url}</a>
+<p>${cvresults.deck}</p>
    `);
 };
+
 
 function displayCharacters(characters) {
   characters.forEach(obj => {
       obj.results.forEach(arr => {
         const name = arr.name;
         if (name && name.length) {
-            const charSelect = `<option value="${name}">${name}</option>`;
+            const charSelect = `<option value="${name}_${arr.url}">${name}</option>`;
             const select = document.querySelector('.char_select');
             select.innerHTML += charSelect;
         }
     })
   });
+  $('.loader').addClass('hidden');
 };
+
+
 
 function submit_form() {
     event.preventDefault();
     const character = document.getElementById("char").value;
+    $('.loader').removeClass('hidden');
     getComics(character);
 };
 
 function list_all_characters() {
+
 let i = "";
 
 let urls = [];
