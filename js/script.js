@@ -35,8 +35,103 @@ function getComics(character) {
         })
         .then(responseJson => getSWAPIperson(swURL, responseJson, char))
         .catch(err => {
+            $('.loader').addClass('hidden');
             $('#js-error-message').text(`Something went wrong getting comics: ${err.message}`)
         });
+};
+
+function getComicsTable(charUrl){
+    const params = {
+    format: "json",
+    api_key: apiKey,
+};
+
+const queryString = formatQueryParams(params);
+const proxyurl = "https://cors-anywhere.herokuapp.com/"; //to bypass CORS issue
+const url = charUrl + '?' + queryString;
+
+fetch(proxyurl + url)
+  .then(response => {
+    if (response.ok) {
+    return response.json();
+}
+throw new Error(response.statusText);
+})
+.then(responseJson => displayComicsTable(responseJson.results.issue_credits))
+.catch(err => {
+$('.loader').addClass('hidden');
+$('#js-error-message').text(`Something went wrong getting comics table: ${err.message}`)
+});
+};
+
+function getNextPage(issues, currentPage) {
+  let urlArr = [];
+  const num = 20; // how many results I want to return
+  let maxNum = (currentPage * num);
+  if (maxNum > issues.length) { maxNum = issues.length;}
+  let i = (currentPage - 1); // index
+ 
+for (i = i * num; i < maxNum; i++) {
+    const issue = issues[i].api_detail_url;
+    if (issue) {
+      urlArr.push(issue);
+    };
+  };
+  return urlArr;
+};
+
+function displayComicsTable(issueCredits) {
+  $('.pageLoader').removeClass('hidden');
+  const num = 20; // how many results I want to return
+  const pages = Math.ceil(issueCredits.length/num);
+
+  //set up page buttons
+  let page=1;
+  for (let i = 1; i <= pages; i++){
+  const urlArr = getNextPage(issueCredits, page);
+  const urlStringArr = urlArr.map(url => `'${url}'`).join(',');
+  $('.pages').append(`<li><button onclick="getComicUrls([${urlStringArr}])">${page}</button></li>`);
+  page++
+  };
+
+  //get first page of results
+  const urlArr = getNextPage(issueCredits, 1);
+  console.log(urlArr);
+  getComicUrls(urlArr);
+};
+
+
+
+
+function getComicUrls(urlArr){
+  
+
+ $('.table').empty();
+  urlArr.forEach(url => {
+    const params = {
+      format: "json",
+      api_key: apiKey,
+  };
+  
+  const queryString = formatQueryParams(params);
+  const proxyurl = "https://cors-anywhere.herokuapp.com/"; //to bypass CORS issue
+  const finalUrl = url + '?' + queryString;
+  fetch(proxyurl + finalUrl)
+  .then(response => {
+    if (response.ok) {
+  
+    return response.json();
+    }
+      throw new Error(response.statusText);
+})
+.then(responseJson => {
+  $('.table').append(`
+       <li class="old"><a href="${responseJson.results.site_detail_url}" target="_blank"><img src="${responseJson.results.image.thumb_url}"/></a><br>
+       </li>
+`);
+})
+  })
+  $('.pageLoader').addClass('hidden');
 };
 
 function getSWAPIperson(swURL, cvresults, char){
@@ -50,6 +145,7 @@ function getSWAPIperson(swURL, cvresults, char){
   })
   .then(swresponseJson => displayResults(cvresults, swresponseJson, char))
   .catch(err => {
+    $('.loader').addClass('hidden');
     $('#js-error-message').text(`Something went wrong getting SWAPI person: ${err.message}`)
   });
 };
@@ -104,6 +200,7 @@ function displayResults(cvResults, swResults, char) {
     $('.old').empty();
     // iterate through the items array
     let match = 0;
+    let matchName = "";
     for (let i = 0; i < cvResults.results.length; i++) {
         const matchArr = ["Endor", "Stormtrooper", "Star Wars", "Skywalker", "X-Wing", "Death Star", "Yavin", "Jedi", "Padmé", "Palpatine", "Ewok"];
 
@@ -117,6 +214,7 @@ function displayResults(cvResults, swResults, char) {
         // If it's just 1 return it's probably correct.
         if (cvResults.results.length === 1) {
             appendResults(cvResults.results[i],swResults)
+            matchName = cvResults.results[i];
             match++;
         }
 
@@ -124,29 +222,35 @@ function displayResults(cvResults, swResults, char) {
             matchArr.forEach(term => {
                 if (match === 0 && cvResults.results[i].deck !== null && cvResults.results[i].deck.includes(`${term}`)) {
                     appendResults(cvResults.results[i],swResults);
+                    matchName = cvResults.results[i];
                     match++;
                 } else if (match === 0 && cvResults.results[i].description !== null && cvResults.results[i].description.includes(`${term}`)) {
                     appendResults(cvResults.results[i],swResults);
+                    matchName = cvResults.results[i];
                     match++;
                 }
             })
         }
     };
 
-
     if (match === 0) {
         cvResults.results.forEach(name => {
             if (char === name.name || char === name.real_name) {
                 appendResults(name);
+                matchName = cvResults.results[i];
                 match++;
             }
         })
     };
+    if (match > 0) {
+       getComicsTable(matchName.api_detail_url);
+    }
 
     if (match === 0) {
         $('.result').append(
             `<h3 class="old">Sorry, no match for ${char} found.</h3>`);
     };
+
 
     //add old class to swapi results
     $('.swapi').addClass('old');
@@ -198,10 +302,9 @@ function submit_form() {
 
 function list_all_characters() {
 
-let i = "";
-
+// let i = "";
 let urls = [];
-for (i = 1; i < 10; i++) {
+for (let i = 1; i < 10; i++) {
      const url = `https://swapi.co/api/people/?page=${i}`;
      urls.push(url);
     }

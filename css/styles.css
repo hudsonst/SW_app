@@ -13,11 +13,6 @@ main {
     margin-left: auto;
 }
 
-ul {
-    display: flex;
-    list-style-type: none;
-}
-
 form {
     width: 300px;
 }
@@ -35,7 +30,44 @@ img {
     display: none;
 }
 
+ul.pages {
+    display: flex;
+    list-style-type: none;
+    width: 90%;
+    justify-content: space-around;
+    align-content: flex-start;
+    flex-wrap: wrap;
+}
+
+ul.table {
+    display: flex;
+    list-style-type: none;
+    width: 90%;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.comics ul img {
+    height: 190px;
+}
+
+
 .loader {
+    border: 4px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    animation: spin 2s linear infinite;
+    position: absolute;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+.pageLoader {
     border: 4px solid #f3f3f3; /* Light grey */
     border-top: 4px solid #3498db; /* Blue */
     border-radius: 50%;
