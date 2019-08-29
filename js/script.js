@@ -104,8 +104,7 @@ function displayComicsTable(issueCredits) {
 
 
 function getComicUrls(urlArr){
-  
-
+ $('.pageLoader').removeClass('hidden');
  $('.table').empty();
   urlArr.forEach(url => {
     const params = {
@@ -202,7 +201,7 @@ function displayResults(cvResults, swResults, char) {
     let match = 0;
     let matchName = "";
     for (let i = 0; i < cvResults.results.length; i++) {
-        const matchArr = ["Endor", "Stormtrooper", "Star Wars", "Skywalker", "X-Wing", "Death Star", "Yavin", "Jedi", "Padmé", "Palpatine", "Ewok"];
+        const matchArr = ["Endor", "Stormtrooper", "Star Wars", "Skywalker", "X-Wing", "Death Star", "Yavin", "Jedi", "Padmé", "Palpatine", "Ewok", "Jabba"];
 
         // Because ComicVine's API returns too many results with no way to specify, we need to match. 
         if (cvResults.results.length === 0) {
