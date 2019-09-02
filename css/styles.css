@@ -67,6 +67,10 @@ img {
 
 .pages {
     display: inline-block;
+} 
+
+.italic {
+    font-style: italic;
 }
 
 .page {

@@ -256,8 +256,8 @@ function displayResults(cvResults, swResults, char) {
     if (match === 0) {
         cvResults.results.forEach(name => {
             if (char === name.name || char === name.real_name) {
-                appendResults(name);
-                matchName = cvResults.results[i];
+                appendResults(name, swResults);
+                matchName = name;
                 match++;
             }
         })
