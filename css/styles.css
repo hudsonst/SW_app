@@ -35,7 +35,9 @@ body {
     padding: 25px;
 }
 
-
+.filter {
+    filter: invert(95%) sepia(14%) saturate(0%) hue-rotate(10deg) brightness(91%) contrast(94%);
+}
 
 .block {
     height: 600px;
@@ -45,6 +47,7 @@ h1,
 h3 {
     font-family: 'distant_galaxyregular', Arial, sans-serif;
     letter-spacing: 1px;
+    text-shadow: -8px 7px 6px black;
 }
 
 h3 {
