@@ -24,19 +24,19 @@ The app uses HTML, CSS, Javascript and JQuery.
 Screenshots
 -----------
 Landing page:
-[!Landing page](img/screenshot_home.png)
+![Landing page](img/screenshot_home.png)
 
 Top of results page:
-[!Top of results page](img/screenshot_results1.png)
+![Top of results page](img/screenshot_results1.png)
 
 Character Details:
-[!Character details](img/screenshot_results2.png)
+![Character details](img/screenshot_results2.png)
 
 Issues:
-[!Issues](img/screenshot_results3.png)
+![Issues](img/screenshot_results3.png)
 
 No match found:
-[!No match](img/screenshot_nomatch.png)
+![No match](img/screenshot_nomatch.png)
 
 
 
