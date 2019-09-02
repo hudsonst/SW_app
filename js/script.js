@@ -102,7 +102,6 @@ function displayComicsTable(issueCredits) {
 
     //get first page of results
     const urlArr = getNextPage(issueCredits, 1);
-    console.log(urlArr);
     const activePage = $('.active');
     getComicUrls(urlArr, activePage);
 };
