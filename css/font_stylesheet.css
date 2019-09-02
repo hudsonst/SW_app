@@ -5,9 +5,10 @@
     font-style: normal;
 
 }
+
 @font-face {
     font-family: 'News Gothic MT';
     font-style: normal;
     font-weight: normal;
     src: local('News Gothic MT'), url('NWGTHC.woff') format('woff');
-    }
+}

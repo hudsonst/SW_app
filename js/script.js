@@ -140,17 +140,19 @@ function getComicUrls(urlArr, activePage) {
                 throw new Error(response.statusText);
             })
             .then(responseJson => {
-              if (responseJson.results.name === null) {
-                $('.table').append(`
+                if (responseJson.results.name === null) {
+                    $('.table').append(`
         <li class="old"><a href="${responseJson.results.site_detail_url}" target="_blank"><img class="issue" src='${responseJson.results.image.thumb_url}' alt='${responseJson.results.volume.name}  Issue ${responseJson.results.issue_number}'/></a>
         <figcaption>${responseJson.results.volume.name} Issue ${responseJson.results.issue_number}</figcaption>
         </li>
-        `);} else { 
-         $('.table').append(`
+        `);
+                } else {
+                    $('.table').append(`
         <li class="old"><a href="${responseJson.results.site_detail_url}" target="_blank"><img class="issue" src='${responseJson.results.image.thumb_url}' alt='${responseJson.results.volume.name} ${responseJson.results.name}  Issue ${responseJson.results.issue_number}'/></a>
         <figcaption>${responseJson.results.volume.name} ${responseJson.results.name} Issue ${responseJson.results.issue_number}</figcaption>
         </li>
-        `);}
+        `);
+                }
             })
     })
     $('.pageLoader').addClass('hidden');
@@ -274,6 +276,7 @@ function displayResults(cvResults, swResults, char) {
     //display the results section, remove loader
     $('.hidden').removeClass('hidden');
     $('.loader').addClass('hidden');
+
     //add old class to swapi results
     $('.swapi').addClass('old');
 
@@ -284,7 +287,7 @@ function displayResults(cvResults, swResults, char) {
         $('.result').append(
             `<h3 class="old">Sorry, no match for ${char} found.</h3>`);
     };
-    // remove spaceholding block (for border)
+    // remove spaceholding block (for body border)
     $('.emptyblock').empty();
 };
 

@@ -18,44 +18,44 @@
 <body>
 
     <header>
-        <img src="img/star-wars-icons/Star_Wars_Falcon.svg" class="filter"/>
+        <img src="img/star-wars-icons/Star_Wars_Falcon.svg" class="filter" />
         <h1>Star Wars Comics and Characters</h1>
     </header>
     <main>
         <p>See which comics and magazines the characters from the Star Wars movies have been in! Includes characters from the core films up until <span class="italic">The Force Awakens</span>, not the extended universe (sorry Jyn Erso and Last Jedi fans!)</p>
         <p>This website uses the Comicvine and SWAPI APIs.</p>
-    
-    <form>
-        <label>Pick a person<br>
-            <select class="char_select" id="char">
-            </select>
-            <input type="submit" value="Submit" onclick="submit_form()" />
-        </label>&nbsp;&nbsp;
-        <span class="loader"></span>
 
-    </form>
-    <p id="js-error-message" class="old"></p>
-    <section class="emptyblock">
-        <div class="block"></div>
-    </section>
-    <section class="hidden result">
-        <article class="details">
-            <p class="thumb swapi">
-                <p>
-                    <p class="species swapi"></p>
-                    <span class="homeworld swapi"></span>
-                </p>
-                <p class="films swapi"></p>
-        </article>
-        <article class="deck old">
-        </article>
-        <article class="comics">
-            <div class="pageLoader hidden"></div>
-            <div class="pages old"></div>
-            <ul class="table old">
-            </ul>
-        </article>
-    </section>
+        <form>
+            <label>Pick a person<br>
+                <select class="char_select" id="char">
+                </select>
+                <input type="submit" value="Submit" onclick="submit_form()" />
+            </label>&nbsp;&nbsp;
+            <span class="loader"></span>
+
+        </form>
+        <p id="js-error-message" class="old"></p>
+        <section class="emptyblock">
+            <div class="block"></div>
+        </section>
+        <section class="hidden result">
+            <article class="details">
+                <p class="thumb swapi">
+                    <p>
+                        <p class="species swapi"></p>
+                        <span class="homeworld swapi"></span>
+                    </p>
+                    <p class="films swapi"></p>
+            </article>
+            <article class="deck old">
+            </article>
+            <article class="comics">
+                <div class="pageLoader hidden"></div>
+                <div class="pages old"></div>
+                <ul class="table old">
+                </ul>
+            </article>
+        </section>
     </main>
     <script src="js/script.js"></script>
 </body>

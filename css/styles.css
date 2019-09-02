@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    font-family: 'News Gothic MT', Arial, sans-serif; 
+    font-family: 'News Gothic MT', Arial, sans-serif;
 }
 
 body:before,
@@ -54,7 +54,8 @@ h3 {
     padding-top: 20px;
 }
 
-header img, .thumb img {
+header img,
+.thumb img {
     float: right;
     padding: 5px;
 }
@@ -66,7 +67,7 @@ li {
     text-indent: 0;
     margin: 0.5em;
     padding: 0.5em;
-  }
+}
 
 .homeworld {
     display: block;
@@ -82,7 +83,7 @@ li {
 
 .pages {
     display: inline-block;
-} 
+}
 
 .numResults {
     float: left;
