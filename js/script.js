@@ -137,10 +137,15 @@ function getComicUrls(urlArr, activePage) {
                 throw new Error(response.statusText);
             })
             .then(responseJson => {
+              if (responseJson.results.name === null) {
                 $('.table').append(`
-       <li class="old"><a href="${responseJson.results.site_detail_url}" target="_blank"><img src="${responseJson.results.image.thumb_url}"/></a><br>
-       </li>
-`);
+        <li class="old"><a href="${responseJson.results.site_detail_url}" target="_blank"><img class="issue" src='${responseJson.results.image.thumb_url}' title='${responseJson.results.volume.name} Issue ${responseJson.results.issue_number}' alt='${responseJson.results.volume.name}  Issue ${responseJson.results.issue_number}'/></a><br>
+        </li>
+        `);} else { 
+         $('.table').append(`
+        <li class="old"><a href="${responseJson.results.site_detail_url}" target="_blank"><img class="issue" src='${responseJson.results.image.thumb_url}' title='${responseJson.results.volume.name} ${responseJson.results.name} Issue ${responseJson.results.issue_number}' alt='${responseJson.results.volume.name} ${responseJson.results.name}  Issue ${responseJson.results.issue_number}'/></a><br>
+        </li>
+        `);}
             })
     })
     $('.pageLoader').addClass('hidden');
