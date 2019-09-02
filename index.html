@@ -10,43 +10,49 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="Find out what comics Star Wars characters have been in">
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/font_stylesheet.css" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="css/styles.css">
 
 </head>
 
 <body>
-    <header>
-        <h1>Pick a character from any of the Star Wars movies to see what comics they've been in!</h1>
-    </header>
-    <main class="main">
-        <form>
-            <label>Which character<br>
-                <select class="char_select" id="char">
-                </select>
-                <input type="submit" value="Submit" onclick="submit_form()" />
-            </label>&nbsp;&nbsp;
-            <span class="loader"></span>
-          
-        </form>
-       <p id="js-error-message" class="old"></p>
-        <section class="hidden result">
-            <article class="details">
-              <p class="species swapi"></p>
-              <p class="thumb swapi"><p>
-              <span class="homeworld swapi"></span></p>
-              <p class="films swapi"></p>
-            </article>
-            <article class="deck old">
-            </article>
-            <article class="comics">
-              <h4>Pages&nbsp;&nbsp;&nbsp;&nbsp;<span class="pageLoader hidden"></span></h4>
-              <ul class="pages old"></ul>
-              <ul class="table old">
-              </ul>
-            </article>
-        </section>
 
-        <script src="js/script.js"></script>
+    <header>
+        <h1>Star Wars Comics and Characters</h1>
+        <p>See which comics and magazines the characters from the Star Wars movies have been in! Includes characters from the core films, not the extended universe (sorry Jyn Erso fans!)</p>
+    </header>
+    <form>
+        <label>Pick a person<br>
+            <select class="char_select" id="char">
+            </select>
+            <input type="submit" value="Submit" onclick="submit_form()" />
+        </label>&nbsp;&nbsp;
+        <span class="loader"></span>
+
+    </form>
+    <p id="js-error-message" class="old"></p>
+    <section class="emptyblock">
+        <div class="block"></div>
+    </section>
+    <section class="hidden result">
+        <article class="details">
+            <p class="thumb swapi">
+                <p>
+                    <p class="species swapi"></p>
+                    <span class="homeworld swapi"></span>
+                </p>
+                <p class="films swapi"></p>
+        </article>
+        <article class="deck old">
+        </article>
+        <article class="comics">
+            <div class="pages old">&nbsp;&nbsp;&nbsp;&nbsp;<span class="pageLoader hidden"></span></div>
+            <ul class="table old">
+            </ul>
+        </article>
+    </section>
+
+    <script src="js/script.js"></script>
 </body>
 
 </html>
