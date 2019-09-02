@@ -100,6 +100,9 @@ function displayComicsTable(issueCredits) {
         page++
     };
 
+    // append number of results
+    $('.pages').prepend(`<span class="numResults">${issueCredits.length} results</span>`)
+
     //get first page of results
     const urlArr = getNextPage(issueCredits, 1);
     const activePage = $('.active');
@@ -139,11 +142,13 @@ function getComicUrls(urlArr, activePage) {
             .then(responseJson => {
               if (responseJson.results.name === null) {
                 $('.table').append(`
-        <li class="old"><a href="${responseJson.results.site_detail_url}" target="_blank"><img class="issue" src='${responseJson.results.image.thumb_url}' title='${responseJson.results.volume.name} Issue ${responseJson.results.issue_number}' alt='${responseJson.results.volume.name}  Issue ${responseJson.results.issue_number}'/></a><br>
+        <li class="old"><a href="${responseJson.results.site_detail_url}" target="_blank"><img class="issue" src='${responseJson.results.image.thumb_url}' alt='${responseJson.results.volume.name}  Issue ${responseJson.results.issue_number}'/></a>
+        <figcaption>${responseJson.results.volume.name} Issue ${responseJson.results.issue_number}</figcaption>
         </li>
         `);} else { 
          $('.table').append(`
-        <li class="old"><a href="${responseJson.results.site_detail_url}" target="_blank"><img class="issue" src='${responseJson.results.image.thumb_url}' title='${responseJson.results.volume.name} ${responseJson.results.name} Issue ${responseJson.results.issue_number}' alt='${responseJson.results.volume.name} ${responseJson.results.name}  Issue ${responseJson.results.issue_number}'/></a><br>
+        <li class="old"><a href="${responseJson.results.site_detail_url}" target="_blank"><img class="issue" src='${responseJson.results.image.thumb_url}' alt='${responseJson.results.volume.name} ${responseJson.results.name}  Issue ${responseJson.results.issue_number}'/></a>
+        <figcaption>${responseJson.results.volume.name} ${responseJson.results.name} Issue ${responseJson.results.issue_number}</figcaption>
         </li>
         `);}
             })
@@ -319,7 +324,7 @@ function displayCharacters(characters) {
 
 function submit_form() {
     event.preventDefault();
-    const character = $('#char').val();
+    const character = $('.char_select').val();
     $('.loader').removeClass('hidden');
     getComics(character);
 };
