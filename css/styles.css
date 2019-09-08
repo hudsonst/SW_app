@@ -54,10 +54,19 @@ h3 {
     padding-top: 20px;
 }
 
+input {
+    padding: 11px 15px;
+    font-size: 15px;
+ }
+
 header img,
 .thumb img {
     float: right;
     padding: 5px;
+}
+
+.thumb img {
+    padding-top: 30px;
 }
 
 li {
@@ -128,14 +137,12 @@ form,
     height: 190px;
 }
 
-a:link {
-    color: lightblue;
+.characterPage {
+    text-align: center;
+    background-color: #ddd;
+    padding: 10px 50px;
+    box-shadow: -8px 7px 6px black;
 }
-
-a:visited {
-    color: blue;
-}
-
 
 .loader {
     border: 4px solid #f3f3f3;
@@ -181,10 +188,11 @@ a:visited {
     }
 }
 
+
 @media only screen and (min-width: 600px) {
     .thumb img {
         padding-right: 25%;
-        padding-top: 40px;
+        padding-left: 5%;
     }
 
     li {
@@ -208,5 +216,17 @@ a:visited {
     body:after {
         width: 100%;
     }
+}
+    
+@media only screen and (min-width: 375px) {
+    input {
+        margin-left: 10px;
+    }
+ }
 
+ @media only screen and (max-width: 350px) {
+    input {
+        margin-top: 10px;
+    }
+}
 }

@@ -142,17 +142,21 @@ function getComicUrls(urlArr, activePage) {
             .then(responseJson => {
                 if (responseJson.results.name === null) {
                     $('.table').append(`
-        <li class="old"><a href="${responseJson.results.site_detail_url}" target="_blank"><img class="issue" src='${responseJson.results.image.thumb_url}' alt='${responseJson.results.volume.name}  Issue ${responseJson.results.issue_number}'/></a>
-        <figcaption>${responseJson.results.volume.name} Issue ${responseJson.results.issue_number}</figcaption>
+        <li class="old"><figure><a href="${responseJson.results.site_detail_url}" target="_blank"><img class="issue" src="${responseJson.results.image.thumb_url}" alt="${responseJson.results.volume.name} Issue ${responseJson.results.issue_number}"/></a>
+        <figcaption>${responseJson.results.volume.name} Issue ${responseJson.results.issue_number}</figcaption></figure>
         </li>
         `);
                 } else {
                     $('.table').append(`
-        <li class="old"><a href="${responseJson.results.site_detail_url}" target="_blank"><img class="issue" src='${responseJson.results.image.thumb_url}' alt='${responseJson.results.volume.name} ${responseJson.results.name}  Issue ${responseJson.results.issue_number}'/></a>
-        <figcaption>${responseJson.results.volume.name} ${responseJson.results.name} Issue ${responseJson.results.issue_number}</figcaption>
+        <li class="old"><figure><a href="${responseJson.results.site_detail_url}" target="_blank"><img class="issue" src="${responseJson.results.image.thumb_url}" alt="${responseJson.results.volume.name} ${responseJson.results.name} Issue ${responseJson.results.issue_number}"/></a>
+        <figcaption>${responseJson.results.volume.name} ${responseJson.results.name} Issue ${responseJson.results.issue_number}</figcaption></figure>
         </li>
         `);
                 }
+            })
+            .catch(err => {
+                $('.loader').addClass('hidden');
+                $('#js-error-message').text(`Something went wrong getting comic URLs: ${err.message}`)
             })
     })
     $('.pageLoader').addClass('hidden');
@@ -215,6 +219,10 @@ function getSWAPIitems(swResults, propArr) {
                     };
                 };
 
+            })
+            .catch(err => {
+                $('.loader').addClass('hidden');
+                $('#js-error-message').text(`Something went wrong getting SWAPI items: ${err.message}`)
             });
     });
 };
@@ -244,7 +252,8 @@ function displayResults(cvResults, swResults, char) {
             matchName = cvResults.results[i];
             match++;
         }
-
+        // If we haven't found a match yet, cycle thru the deck, and then the description to find the Star Wars terms.
+        // Also check that they're not null.
         if (match === 0) {
             matchArr.forEach(term => {
                 if (match === 0 && cvResults.results[i].deck !== null && cvResults.results[i].deck.includes(`${term}`)) {
@@ -259,7 +268,8 @@ function displayResults(cvResults, swResults, char) {
             })
         }
     };
-
+    // If we haven't found a match yet, check to see if the character name from SWAPI and the one from ComicVine is an
+    // EXACT match. If so, it's probably correct.
     if (match === 0) {
         cvResults.results.forEach(name => {
             if (char === name.name || char === name.real_name) {
@@ -269,6 +279,8 @@ function displayResults(cvResults, swResults, char) {
             }
         })
     };
+
+    //If there's a match, get the comics for that character
     if (match > 0) {
         getComicsTable(matchName.api_detail_url);
     }
@@ -280,6 +292,7 @@ function displayResults(cvResults, swResults, char) {
     //add old class to swapi results
     $('.swapi').addClass('old');
 
+    //If nothing matches, then display message
     if (match === 0) {
         $('.loader').addClass('hidden');
         $('.pageLoader').addClass('hidden');
@@ -293,17 +306,14 @@ function displayResults(cvResults, swResults, char) {
 
 
 function appendResults(cvresults, swResults) {
-
-    $('.species').prepend(
-        `<h3>${cvresults.name}</h3>`);
-
     const swapiArr = ["species", "homeworld", "films"];
     getSWAPIitems(swResults, swapiArr);
-    $('.thumb').append(`<img src="${cvresults.image.thumb_url}"/>`);
+    $('.thumb').prepend(`<img src="${cvresults.image.thumb_url}" alt="${cvresults.name}"/>`);
+    $('.name').append(`${cvresults.name}`);
     $('.deck').append(
         `
-<p>${cvresults.name} appears in ${cvresults.count_of_issue_appearances} comics and magazine articles</p>
-<a href="${cvresults.site_detail_url}">Link to ${cvresults.name}'s ComicVine Character Page</a>
+<p>${cvresults.name} appears in ${cvresults.count_of_issue_appearances} comics and magazine articles.</p>
+<p class="characterPage"><a href="${cvresults.site_detail_url}" target="_blank">${cvresults.name}'s ComicVine Character Page</a></p>
 <p>${cvresults.deck}</p>
    `);
 };
@@ -334,7 +344,6 @@ function submit_form() {
 
 function list_all_characters() {
 
-    // let i = "";
     let urls = [];
     for (let i = 1; i < 10; i++) {
         const url = `https://swapi.co/api/people/?page=${i}`;

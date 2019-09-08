@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="Find out what comics Star Wars characters have been in">
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="css/font_stylesheet.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="css/font_stylesheet.css">
     <link rel="stylesheet" href="css/styles.css">
 
 </head>
@@ -18,7 +18,7 @@
 <body>
 
     <header>
-        <img src="img/star-wars-icons/Star_Wars_Falcon.svg" class="filter" />
+        <img src="img/star-wars-icons/Star_Wars_Falcon.svg" class="filter" alt="Millennium Falcon icon" />
         <h1>Star Wars Comics and Characters</h1>
     </header>
     <main>
@@ -29,8 +29,9 @@
             <label>Pick a person<br>
                 <select class="char_select" id="char">
                 </select>
+            </label>
                 <input type="submit" value="Submit" onclick="submit_form()" />
-            </label>&nbsp;&nbsp;
+            &nbsp;&nbsp;
             <span class="loader"></span>
 
         </form>
@@ -40,12 +41,10 @@
         </section>
         <section class="hidden result">
             <article class="details">
-                <p class="thumb swapi">
-                    <p>
-                        <p class="species swapi"></p>
-                        <span class="homeworld swapi"></span>
-                    </p>
-                    <p class="films swapi"></p>
+                <p class="thumb swapi"></p>
+                <h3 class="name swapi"></h3>
+                <p class="species swapi"><span class="homeworld swapi"></span></p>
+                <p class="films swapi"></p>
             </article>
             <article class="deck old">
             </article>
