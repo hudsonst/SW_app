@@ -313,7 +313,7 @@ function appendResults(cvresults, swResults) {
     $('.deck').append(
         `
 <p>${cvresults.name} appears in ${cvresults.count_of_issue_appearances} comics and magazine articles.</p>
-<p class="characterPage"><a href="${cvresults.site_detail_url}" target="_blank">${cvresults.name}'s ComicVine Character Page</a></p>
+<p class="characterPage"><a href="${cvresults.site_detail_url}" target="_blank">${cvresults.name}'s Comic Vine Character Page</a></p>
 <p>${cvresults.deck}</p>
    `);
 };
