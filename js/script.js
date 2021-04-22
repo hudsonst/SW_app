@@ -346,7 +346,7 @@ function list_all_characters() {
 
     let urls = [];
     for (let i = 1; i < 10; i++) {
-        const url = `https://swapi.co/api/people/?page=${i}`;
+        const url = `https://swapi.dev/api/people/?page=${i}`;
         urls.push(url);
     }
 
