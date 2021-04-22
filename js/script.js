@@ -1,7 +1,7 @@
 'use strict';
 //API for Comic Vine
 const apiKey = 'e8b99470591e7c5c3c1db6e743ec26ff8548ea82';
-const searchURL = 'http://comicvine.gamespot.com/api/search/';
+const searchURL = 'https://comicvine.gamespot.com/api/search/';
 
 function formatQueryParams(params) {
     const queryItems = Object.keys(params)
@@ -131,7 +131,7 @@ function getComicUrls(urlArr, activePage) {
         const queryString = formatQueryParams(params);
         const proxyurl = "https://cors.bridged.cc/"; //to bypass CORS issue
         const finalUrl = url + '?' + queryString;
-        
+
         fetch(proxyurl + finalUrl)
             .then(response => {
                 if (response.ok) {
