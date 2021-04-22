@@ -191,7 +191,8 @@ function getSWAPIitems(swResults, propArr) {
         }
     });
     urlArr.forEach(url => {
-        fetch(url)
+        const url_https = url.replace("http", "https")
+        fetch(url_https)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -199,17 +200,17 @@ function getSWAPIitems(swResults, propArr) {
                 throw new Error(response.statusText);
             })
             .then(responseJson => {
-                if (url.includes("species")) {
+                if (url_https.includes("species")) {
                     $('.species').append(
                         `Species: ${responseJson.name}<br>`)
                 };
 
-                if (url.includes("planets")) {
+                if (url_https.includes("planets")) {
                     $('.homeworld').append(
                         `Homeworld: ${responseJson.name}</p>`)
                 };
 
-                if (url.includes("films")) {
+                if (url_https.includes("films")) {
                     if (filmCount === 0) {
                         $('.films').append(
                             `Films:<br>${responseJson.title}`)
