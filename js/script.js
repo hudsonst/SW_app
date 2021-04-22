@@ -13,7 +13,8 @@ function getComics(character) {
     $('.loader').removeClass('hidden');
     const charArr = character.split("_");
     const char = charArr[0];
-    const swURL = charArr[1];
+    const swURL1 = charArr[1];
+    const swURL = swURL1.replace("http", "https")
 
     //Get Comic Vine comics
     const params = {
