@@ -23,7 +23,7 @@ function getComics(character) {
         api_key: apiKey,
     };
     const queryString = formatQueryParams(params);
-    const proxyurl = "https://cors-anywhere.herokuapp.com/"; //to bypass CORS issue
+    const proxyurl = "https://cors.bridged.cc/"; //to bypass CORS issue
     const url = searchURL + '?' + queryString;
 
     fetch(proxyurl + url)
@@ -47,7 +47,7 @@ function getComicsTable(charUrl) {
     };
 
     const queryString = formatQueryParams(params);
-    const proxyurl = "https://cors-anywhere.herokuapp.com/"; //to bypass CORS issue
+    const proxyurl = "https://cors.bridged.cc/"; //to bypass CORS issue
     const url = charUrl + '?' + queryString;
 
     fetch(proxyurl + url)
@@ -129,8 +129,9 @@ function getComicUrls(urlArr, activePage) {
         };
 
         const queryString = formatQueryParams(params);
-        const proxyurl = "https://cors-anywhere.herokuapp.com/"; //to bypass CORS issue
+        const proxyurl = "https://cors.bridged.cc/"; //to bypass CORS issue
         const finalUrl = url + '?' + queryString;
+        
         fetch(proxyurl + finalUrl)
             .then(response => {
                 if (response.ok) {
